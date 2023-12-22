@@ -6,59 +6,11 @@ import HomeFilters from "@/components/shared/home/HomeFilters";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getQuestions } from "@/lib/actions/question.action";
 
-const questions = [
-  {
-    _id: "1",
-    title: "What is the difference between a framework and a library?",
-    tags: [
-      {
-        _id: "1",
-        name: "javascript",
-      },
-      {
-        _id: "2",
-        name: "react",
-      },
-    ],
-    author: {
-      _id: "1",
-      name: "John Doe",
-      picture: "/assets/images/avatars/avatar-1.png",
-      clerkId: "1",
-    },
-    upvotes: [],
-    views: 30,
-    answers: [],
-    createdAt: new Date(),
-  },
-  {
-    _id: "2",
-    title: "What is the difference between a framework and a library?",
-    tags: [
-      {
-        _id: "1",
-        name: "javascript",
-      },
-      {
-        _id: "2",
-        name: "react",
-      },
-    ],
-    author: {
-      _id: "1",
-      name: "John Doe",
-      picture: "/assets/images/avatars/avatar-1.png",
-      clerkId: "1",
-    },
-    upvotes: [],
-    views: 30,
-    answers: [],
-    createdAt: new Date(),
-  },
-];
+export default async function Home() {
+  const result = await getQuestions({});
 
-export default function Home() {
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -90,8 +42,8 @@ export default function Home() {
       <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
