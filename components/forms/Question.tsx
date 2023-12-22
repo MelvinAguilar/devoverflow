@@ -11,6 +11,8 @@ import { Button } from "../ui/button";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "@/context/ThemeProvider";
 import { QuestionsSchema } from "@/lib/validations";
+import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -23,13 +25,17 @@ import {
 
 interface Props {
   mongoUserId: string;
-  type?: string;
-  questionDetails?: string;
+  // type?: string;
+  // questionDetails?: string;
 }
 
-const Question = ({ mongoUserId, questionDetails, type }: Props) => {
+const type: string = "create";
+
+const Question = ({ mongoUserId }: Props) => {
   const editorRef = useRef(null);
+  const router = useRouter();
   const { theme } = useTheme();
+  const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof QuestionsSchema>>({
@@ -46,7 +52,14 @@ const Question = ({ mongoUserId, questionDetails, type }: Props) => {
     setIsSubmitting(true);
 
     try {
-      // TODO
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
+
+      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
