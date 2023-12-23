@@ -8,6 +8,7 @@ import {
   downvoteQuestion,
   upvoteQuestion,
 } from "@/lib/actions/question.action";
+import { toggleSaveQuestion } from "@/lib/actions/user.action";
 
 interface Props {
   type: string;
@@ -32,7 +33,13 @@ const Votes = ({
 }: Props) => {
   const pathname = usePathname();
 
-  const handleSave = async () => {};
+  const handleSave = async () => {
+    await toggleSaveQuestion({
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+      path: pathname,
+    });
+  };
 
   const handleVote = async (action: string) => {
     if (!userId) {
