@@ -6,9 +6,23 @@ import { revalidatePath } from "next/cache";
 import {
   CreateUserParams,
   DeleteUserParams,
+  GetAllUsersParams,
   UpdateUserParams,
 } from "./shared.types";
 import Question from "@/database/question.model";
+
+export async function getAllUsers(params: GetAllUsersParams) {
+  try {
+    connectToDb();
+
+    const users = await User.find({}).sort({ createdAt: -1 });
+
+    return { users };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export async function getUserById(params: any) {
   try {
@@ -68,8 +82,6 @@ export async function deleteUser(params: DeleteUserParams) {
 
     // delete user questions
     await Question.deleteMany({ author: user._id });
-
-    // TODO: delete user answers, comments, etc.
 
     const deletedUser = await User.findByIdAndDelete(user._id);
 
