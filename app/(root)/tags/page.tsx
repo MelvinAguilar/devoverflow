@@ -8,7 +8,9 @@ import { TagFilters } from "@/constants/filters";
 import { getAllTags } from "@/lib/actions/tag.action";
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
-  const result = await getAllTags({});
+  const result = await getAllTags({
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>
