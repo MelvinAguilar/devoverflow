@@ -3,45 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import RenderTag from "./RenderTag";
-
-const hotQuestions = [
-  {
-    _id: "1",
-    title: "How to use React Query?",
-  },
-  {
-    _id: "2",
-    title: "How to use React Query?",
-  },
-  {
-    _id: "3",
-    title: "How to use React Query?",
-  },
-];
-const popularTags = [
-  {
-    _id: "1",
-    name: "React",
-    numberOfQuestions: 10,
-  },
-  {
-    _id: "2",
-    name: "React",
-    numberOfQuestions: 10,
-  },
-  {
-    _id: "3",
-    name: "React",
-    numberOfQuestions: 10,
-  },
-  {
-    _id: "4",
-    name: "React",
-    numberOfQuestions: 10,
-  },
-];
+import { getHotQuestions } from "@/lib/actions/question.action";
+import { getMostPopularTags } from "@/lib/actions/tag.action";
 
 const RightSidebar = async () => {
+  const hotQuestions = await getHotQuestions();
+  const popularTags = await getMostPopularTags();
+
   return (
     <section className="background-light900_dark200 light-border custom-scrollbar sticky right-0 top-0 flex h-screen w-[350px] flex-col overflow-y-auto border-l p-6 pt-36 shadow-light-300 max-xl:hidden dark:shadow-none">
       <div>
