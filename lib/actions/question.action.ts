@@ -21,8 +21,12 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDb();
 
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 15 } = params;
 
+    // Pagination: Skip the first n results and limit the results to the page size
+    const skipAmount = (page - 1) * pageSize;
+
+    // Query: Search for the search query in the title or content
     const query: FilterQuery<typeof Question> = {};
 
     if (searchQuery) {
@@ -32,6 +36,7 @@ export async function getQuestions(params: GetQuestionsParams) {
       ];
     }
 
+    // Sort: Sort by the selected filter
     let sortOptions = {};
 
     switch (filter) {
@@ -48,12 +53,19 @@ export async function getQuestions(params: GetQuestionsParams) {
         break;
     }
 
+    // Get the questions
     const questions = await Question.find(query)
+      .skip(skipAmount)
+      .limit(pageSize)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
       .sort(sortOptions);
 
-    return { questions };
+    // Check if there are more questions
+    const totalQuestions = await Question.countDocuments(query);
+    const isNext = totalQuestions > skipAmount + questions.length;
+
+    return { questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;

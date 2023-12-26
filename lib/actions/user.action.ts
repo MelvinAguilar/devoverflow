@@ -22,8 +22,12 @@ export async function getAllUsers(params: GetAllUsersParams) {
   try {
     connectToDb();
 
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 15 } = params;
 
+    // Pagination: Skip the first n results and limit the results to the page size
+    const skipAmount = (page - 1) * pageSize;
+
+    // Query: Search for the search query in the name or username
     const query: FilterQuery<typeof User> = {};
 
     if (searchQuery) {
@@ -33,6 +37,7 @@ export async function getAllUsers(params: GetAllUsersParams) {
       ];
     }
 
+    // Sort: Sort by the selected filter
     let sortOptions = {};
 
     switch (filter) {
@@ -47,9 +52,17 @@ export async function getAllUsers(params: GetAllUsersParams) {
         break;
     }
 
-    const users = await User.find(query).sort(sortOptions);
+    // Get the users
+    const users = await User.find(query)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
 
-    return { users };
+    // Check if there are more users
+    const totalUsers = await User.countDocuments(query);
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -163,13 +176,17 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDb();
 
-    // eslint-disable-next-line no-unused-vars
-    const { clerkId, pageSize = 15, page = 1, filter, searchQuery } = params;
+    const { clerkId, filter, searchQuery, pageSize = 15, page = 1 } = params;
 
+    // Pagination: Skip the first n results and limit the results to the page size
+    const skipAmount = (page - 1) * pageSize;
+
+    // Query: Search for the search query in the title
     const query: FilterQuery<typeof Question> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
       : {};
 
+    // Sort: Sort by the selected filter
     let sortOptions = {};
 
     switch (filter) {
@@ -190,11 +207,14 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
         break;
     }
 
+    // Get the user and populate the saved questions
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
       match: query,
       options: {
         sort: sortOptions,
+        skip: skipAmount,
+        limit: pageSize + 1,
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
@@ -206,9 +226,12 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
       throw new Error("User not found");
     }
 
+    // Check if there are more questions
+    const isNext = user.saved.length > pageSize;
+
     const savedQuestions = user.saved;
 
-    return { questions: savedQuestions };
+    return { questions: savedQuestions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -245,17 +268,24 @@ export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDb();
 
-    // eslint-disable-next-line no-unused-vars
     const { userId, page = 1, pageSize = 10 } = params;
+
+    // Pagination: Skip the first n results and limit the results to the page size
+    const skipAmount = (page - 1) * pageSize;
 
     const totalQuestions = await Question.countDocuments({ author: userId });
 
     const userQuestions = await Question.find({ author: userId })
       .sort({ views: -1, upvotes: -1 })
+      .skip(skipAmount)
+      .limit(pageSize)
       .populate("tags", "_id name")
       .populate("author", "_id clerkId name picture");
 
-    return { totalQuestions, questions: userQuestions };
+    // Check if there are more questions
+    const isNext = totalQuestions > skipAmount + userQuestions.length;
+
+    return { totalQuestions, questions: userQuestions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -266,17 +296,24 @@ export async function getUserAnswers(params: GetUserStatsParams) {
   try {
     connectToDb();
 
-    // eslint-disable-next-line no-unused-vars
     const { userId, page = 1, pageSize = 10 } = params;
+
+    // Pagination: Skip the first n results and limit the results to the page size
+    const skipAmount = (page - 1) * pageSize;
 
     const totalAnswers = await Answer.countDocuments({ author: userId });
 
     const userAnswers = await Answer.find({ author: userId })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort({ upvotes: -1 })
       .populate("question", "_id title")
       .populate("author", "_id clerkId name picture");
 
-    return { totalAnswers, answers: userAnswers };
+    // Check if there are more answers
+    const isNext = totalAnswers > skipAmount + userAnswers.length;
+
+    return { totalAnswers, answers: userAnswers, isNext };
   } catch (error) {
     console.log(error);
     throw error;
