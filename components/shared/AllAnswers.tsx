@@ -5,8 +5,8 @@ import Image from "next/image";
 import Filters from "./Filter";
 import ParseHTML from "./ParseHTML";
 import { AnswerFilters } from "@/constants/filters";
-import { getAnswers } from "@/lib/actions/answer.actions";
 import { getTimestamp } from "@/lib/utils";
+import { getAnswers } from "@/lib/actions/answer.action";
 
 interface Props {
   questionId: string;
@@ -23,7 +23,11 @@ const AllAnswers = async ({
   page,
   filter,
 }: Props) => {
-  const result = await getAnswers({ questionId });
+  const result = await getAnswers({
+    questionId,
+    page: page ? +page : 1,
+    sortBy: filter,
+  });
 
   return (
     <div className="mt-11">
