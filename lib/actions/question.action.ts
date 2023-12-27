@@ -21,7 +21,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDb();
 
-    const { searchQuery, filter, page = 1, pageSize = 15 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
 
     // Pagination: Skip the first n results and limit the results to the page size
     const skipAmount = (page - 1) * pageSize;
@@ -138,8 +138,8 @@ export async function createQuestion(params: CreateQuestionParams) {
       $push: { tags: { $each: tagDocuments } },
     });
 
-     // Create an interaction record for the user's ask_question action
-     await Interaction.create({
+    // Create an interaction record for the user's ask_question action
+    await Interaction.create({
       user: author,
       action: "ask_question",
       question: question._id,
@@ -183,8 +183,8 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
       throw new Error("Question not found");
     }
 
-     // Increment author's reputation by +1/-1 for upvoting/revoking an upvote to the question
-     await User.findByIdAndUpdate(userId, {
+    // Increment author's reputation by +1/-1 for upvoting/revoking an upvote to the question
+    await User.findByIdAndUpdate(userId, {
       $inc: { reputation: hasupVoted ? -1 : 1 },
     });
 
