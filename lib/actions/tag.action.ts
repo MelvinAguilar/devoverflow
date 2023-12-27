@@ -21,10 +21,20 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 
     if (!user) throw new Error("User not found");
 
-    return [
-      { _id: "1", name: "tag1" },
-      { _id: "2", name: "tag2" },
-    ];
+    const topTags = await Question.aggregate([
+      { $match: { author: user._id } },
+      { $unwind: "$tags" },
+      { $group: { _id: "$tags", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 3 },
+    ]);
+
+    const resultTags = await Tag.populate(topTags, {
+      path: "_id",
+      select: "name",
+    });
+
+    return resultTags;
   } catch (error) {
     console.log(error);
     throw error;

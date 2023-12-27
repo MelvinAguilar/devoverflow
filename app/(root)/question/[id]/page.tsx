@@ -2,8 +2,8 @@ import React from "react";
 
 import Link from "next/link";
 import Image from "next/image";
-import Answer from "@/database/answer.model";
 import Votes from "@/components/shared/Votes";
+import Answer from "@/components/forms/Answer";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
