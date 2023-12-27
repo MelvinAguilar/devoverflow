@@ -1,3 +1,5 @@
+/* eslint-disable object-shorthand */
+
 // Inspired by react-hot-toast library
 import * as React from "react"
 
