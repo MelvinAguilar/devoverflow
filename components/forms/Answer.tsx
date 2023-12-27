@@ -17,7 +17,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnswerSchema } from "@/lib/validations";
-import { createAnswer } from "@/lib/actions/answer.actions";
+import { createAnswer } from "@/lib/actions/answer.action";
 
 interface Props {
   question: string;
@@ -30,7 +30,6 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // eslint-disable-next-line no-unused-vars
   const [isSubmittingAI, setIsSubmittingAI] = useState(false);
   const { theme } = useTheme();
 
@@ -66,6 +65,37 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     }
   };
 
+  const generateAIAnswer = async () => {
+    if (!authorId) {
+      return;
+    }
+
+    setIsSubmittingAI(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+        {
+          method: "POST",
+          body: JSON.stringify({ question }),
+        }
+      );
+
+      const aiAnswer = await response.json();
+
+      const formattedAnswer = aiAnswer.reply.replace(/\n/g, "<br />");
+
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent(formattedAnswer);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmittingAI(false);
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -75,7 +105,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 
         <Button
           className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
-          onClick={() => {}}
+          onClick={generateAIAnswer}
         >
           {isSubmittingAI ? (
             <>Generating...</>

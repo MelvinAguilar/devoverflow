@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { formatAndDivideNumber } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
-import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.actions";
+import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { viewQuestion } from "@/lib/actions/interactions.actions";
 import {
