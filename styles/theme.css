@@ -4,7 +4,7 @@
 
 @layer utilities {
   .background-light850_dark100 {
-    @apply bg-light-850 dark:bg-dark-100;
+    @apply bg-light-850 dark:bg-[#0A0B0F];
   }
 
   .background-light900_dark200 {
@@ -192,7 +192,7 @@
   }
 
   .primary-gradient {
-    background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+    background: linear-gradient(93deg, #373b6a -13.95%, #5d63af 99.54%);
   }
 
   .dark-gradient {

@@ -27,7 +27,7 @@ const Theme = () => {
               alt=""
               width={20}
               height={20}
-              className="active-theme"
+              className="active-theme cursor-pointer"
             />
           ) : (
             <Image
@@ -35,7 +35,7 @@ const Theme = () => {
               alt=""
               width={20}
               height={20}
-              className="active-theme"
+              className="active-theme cursor-pointer"
             />
           )}
         </MenubarTrigger>

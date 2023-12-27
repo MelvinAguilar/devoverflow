@@ -65,7 +65,6 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
               link="/ask-question"
               linkTitle="Ask a Question"
             />
-            No Tags Found
           </div>
         )}
       </section>
