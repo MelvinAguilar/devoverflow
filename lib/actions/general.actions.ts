@@ -3,7 +3,7 @@
 import User from "@/database/user.model";
 import Answer from "@/database/answer.model";
 import Question from "@/database/question.model";
-import { Tag } from "lucide-react";
+import Tag from "@/database/tag.model";
 import { connectToDb } from "../moongose";
 import { SearchParams } from "./shared.types";
 
@@ -31,7 +31,7 @@ export async function globalSearch(params: SearchParams) {
       // Search in all models
 
       for (const { model, searchField, type } of modelsAndTypes) {
-        const queryResults = await model // @ts-ignore
+        const queryResults = await model
           .find({ [searchField]: regexQuery })
           .limit(2);
 
@@ -59,7 +59,7 @@ export async function globalSearch(params: SearchParams) {
         throw new Error("Invalid search type");
       }
 
-      const queryResults = await modelInfo.model // @ts-ignore
+      const queryResults = await modelInfo.model
         .find({ [modelInfo.searchField]: regexQuery })
         .limit(8);
 
