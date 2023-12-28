@@ -1,8 +1,79 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div id="top"></div>
 
-## Getting Started
+<div align="center">
+  <h1 align="center">DevOverflow - Full Stack Next.js 14 App</h1>
 
-First, run the development server:
+![](https://i.imgur.com/ko2s81n.png)
+
+> ~
+>
+> <h3 align="center">Welcome to DevOverflow, a full-stack application built with Next.js 14 and Server Actions, featuring an array of powerful functionalities to enhance your developer community experience. DevOverflow is designed to be a comprehensive platform for developers to ask questions, share knowledge, and engage in a thriving community.</h3>
+
+> <p align="center">
+>   <img src="https://img.shields.io/badge/NextJS-black?style=for-the-badge&logo=next.js&logoColor=white" />
+>   <img src="https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+>   <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
+>   <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
+>   <img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" />
+>   <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white" />
+
+> </p>
+> ~
+
+</div>
+
+## 🚀 Features
+
+- 🔧 **Next.js Server Actions**: Leverage the power of Next.js server actions for enhanced backend functionality.
+- 🔗 **Webhooks for Authentication Service**: Utilize webhooks for streamlined authentication services.
+- ❓ **Ask and Answer Questions:** Engage in meaningful discussions by posing questions and providing answers
+- 🔖 **Bookmarking:** Save and organize your favorite posts for future reference.
+- 🔍 **Recommendation System for Posts**: Unparalleled recommendation system to enhance content discovery.
+- 🌐 **Global Database Data-Fetching**: Efficient data fetching from all models of the database for the search bar.
+- 🤖 **AI-Generated Answers**: Harness the power of AI to generate insightful answers to questions.
+- 🏆 **Community Badges & Reputation System**: Earn badges and build your reputation within the community.
+- 👀 **Views and Voting Mechanism**: Track views and enable a robust voting mechanism for content.
+- 🎯 **Filter and Pagination**: Enjoy filter and pagination features across various pages for easy navigation.
+- 📱 **Responsive UI**:Experience a responsive user interface that adapts to different screen sizes.
+- 🔐 **User Authentication**: Create a personalized account to fully engage with the community.
+- 🌈 **Themes**: Switch between light and dark themes for a comfortable viewing experience.
+- 🧭 **Multiple Layouts & Grouped Routes**: Explore a well-organized interface with multiple layout options and grouped routes.
+- ✨ **Form Handling**: Efficiently handle forms for seamless user interactions.
+- 🏷️ **Tag Browsing:** Explore content categorically through an intuitive tag-based browsing system.
+
+## 🛠️ Tech Stack
+
+- 🚀 **Next.js 14**: A React framework for building server-rendered applications.
+- 🌐 **Tailwind CSS**: A utility-first CSS framework for responsive designs.
+- 📘 **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
+- 🔍 **ESLint**: Pluggable linting utility for JavaScript and TypeScript.
+- 📦 **MongoDB**: Store and manage data efficiently.
+- 📚 **Mongoose**: MongoDB object modeling for Node.js.
+- 🚀 **clerk**: Simplify authentication workflows.
+- 🔧 **hookform/resolver**: Webhooks for authentication services.
+- 🎨 **Shadcn UI:**: Components from the Shadcn UI library.
+- 🔤 **tailwindcss/typography**: Typography plugin for Tailwind CSS.
+- 🌈 **prismjs**: Syntax highlighting for code blocks.
+- 📝 **react-hook-form**: Forms management for React.
+- 🛠️ **zod**: A TypeScript-first schema declaration.
+
+## 🚀 Author
+
+- Linkedin: Melvin Aguilar - [Linkedin: Melvin Aguilar](https://www.linkedin.com/in/melvinaguilar)
+- GitHub [@melvinaguilar](https://github.com/MelvinAguilar)
+
+## 🛠️ Run the project
+
+- Clone the repository.
+- Install dependency using:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+- Run the development server:
 
 ```bash
 npm run dev
@@ -14,23 +85,41 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Create a `.env.local` file in the root directory of the project and add the following environment variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+# Clerk secrets for api key and webhook
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_CLERK_WEBHOOK_SECRET=
 
-## Learn More
+# Clerk routes
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
-To learn more about Next.js, take a look at the following resources:
+#  Tiny editor
+NEXT_PUBLIC_TINY_EDITOR_API_KEY=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Database
+MONGO_DB_URI=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# OpenAI and public secrets
+NEXT_PUBLIC_SERVER_URL=http://localhost:3000
+OPENAI_API_KEY=
+```
 
-## Deploy on Vercel
+Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Clerk Authentication:** Create a Clerk account [here](https://clerk.com/) and set the `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` environment variables in the `.env.local` file. Configure different URLs for Clerk sign-in, sign-up, after sign-in, and after sign-up pages.
+- **MongoDB Database:** Create a MongoDB database and connect it to the application. Change the `MONGO_DB_URI` environment variable in the `.env.local` file.
+- **TinyMCE**: Create a TinyMCE account [here](https://www.tiny.cloud/) and set the `NEXT_PUBLIC_TINY_EDITOR_API_KEY` environment variable in the `.env.local` file.
+- **OpenAI API:** Create an OpenAI account here and set the `OPENAI_API_KEY` environment variable in the `.env.local` file.
+- After deploy, create a new webhook on Clerk, add the endpoint of `http://<Your-deployed-link>/api/webhook`, set `user` events, and set the `NEXT_CLERK_WEBHOOK_SECRET` environment variable in the `.env.local` file.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 📝 References
+
+[JSMastery. (2023). Ultimate Next.js 14 Course | Become a top 1% Next.js 14 developer.](https://www.jsmastery.pro/ultimate-next-course) E-Learning.
