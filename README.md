@@ -22,6 +22,14 @@
 
 </div>
 
+
+## Test credentials
+
+| Username  | Password |
+| ------------- | ------------- |
+| test  | mysecurepass123  |
+
+
 ## 🚀 Features
 
 - 🔧 **Next.js Server Actions**: Leverage the power of Next.js server actions for enhanced backend functionality.
